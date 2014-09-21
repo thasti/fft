@@ -20,10 +20,13 @@ function y = fft1(x)
            if (~bitand(k-1, (2^(i-2))))     % butterfly start elements
                % calculate butterflys
                tf = exp(-1j*2*pi*n/Ns);
-               % upper element, don't apply twiddle factor (even half)
-               tmp(k,i) = tmp(k,i-1) + tf*tmp(k+Is,i-1);
-               % lower element, apply twiddle factor (odd half)
-               tmp(k+Is,i) = tmp(k,i-1) - tf*tmp(k+Is,i-1) ;
+               % apply twiddle factor to lower element
+               upper = tmp(k,i-1);
+               lower = tf*tmp(k+Is,i-1);
+               % upper element (even half)
+               tmp(k,i) = upper + lower;
+               % lower element (odd half)
+               tmp(k+Is,i) = upper - lower;
                n = n + 1; 
            else
                n = 0;
