@@ -1,0 +1,97 @@
+\chapter{Motivation}
+The FFT is a transformation used in a variety of signal-processing contexts, including filtering, spectral shaping, modulations such as OFDM, signal analysis etc. As it seemed like an interesting topic, the goal was set to implement an efficient DFT algorithm, namely the FFT in VHDL for use in FPGA designs with Altera FPGAs.
+The topic of VLSI implementations of Fourier Transforms has been covered for more than 25 Years by now, and there are softcores available from different vendors. However, the challenge to realise an own implementation and compare it to these IPs is interesting on its own.
+
+\chapter{Roadmap}
+As I have used the FFT up to now mainly in pre-built functions such as Matlab's fft() and ifft(), it was first to be examined how a DFT is to be implemented algorithmically. After successful implementation and functional verification by comparing results with the known functions, the FFT algorithm could be looked at. This algorithm was also implemented and tested on the PC (in Matlab) first, to verify correct function. After this was done, a concept for implementation in VHDL (with focus on resource-efficient synthesis on Altera FPGAs) could be developed.
+Because multiplications can't be avoided and are expensive to realise in hardware, the DSP-units of the FPGA should be used efficiently. Therefore, the different existing efficient FFT schemes were analysed and a suitable compromise was chosen.
+
+\chapter{Test and Verification}
+In the process of implementation, the following steps to ensure functional correctness were taken:
+
+\begin{itemize}
+	\item Research on the topic of DFT and FFT
+	\item Re-Implement the Matlab builtin functions fft() and ifft()
+	\begin{itemize}
+		\item generic (inefficient) DFT algorithm
+		\item fast (efficient) Radix-2 FFT algorithm
+		\item test results against the builtin functions
+	\end{itemize}
+	\item VHDL implementation
+	\item T	est against Matlab implementation
+\end{itemize}
+
+\chapter{Radix-2 FFT}
+\section{Comparing DFT and FFT}
+Compared to the regular DFT, the Radix-2 FFT saves a lot of computation by applying the theory of the Danielson-Lanczos lemma, which states that a DFT of length N can be divided into two DFTs of length N/2 - the odd and the even indexed elements of the input. When this rule is applied until N DFTs of length 1 are left, the DFT is trivial to implement. When stopping at N/2 DFTs of length 2, the classic Radix-2 FFT is acheived. A single 2-point DFT can be computed by a simple equation - shown as the butterfly graph below.
+%TODO Grafik Butterfly 2
+
+When raising N from 2 to 4 samples, two stages of two butterflies each are needed. The first stages computes the DFT of the two vectors containing 2 samples each, the second stage combines the results in another two length-2-DFTs to produce the DFT result of the 4 element vector.
+%TODO Grafik Butterfly 4
+
+\section{Twiddle Factors}
+%TODO Text generieren
+
+\section{Decimation in Time / Frequency}
+In principle, this decomposition of one huge FFT into smaller FFTs can be done in two ways. We can decimate the input (time domain) signal (leave out every other sample, so that we are left with the even samples and the odd samples as the first "smaller" block to compute the FFT for. This way is called Decimation in Time (DIT). Another idea is to start from the other side and decimate the output (frequency domain) signal by leaving out every other sample and composing this FFT by computation of former stages. This way is hence called Decimation in Frequency (DIF). Computational complexity is equal for both methods and only implies changing the order of addition and multiplication in the butterfly units and applying the twiddle factors in different order.
+
+\section{Input and Output ordering}
+Notice the Input element indices: This ordering comes from successive use of even and odd numbered elements for the smaller FFTs. What it represents after any number of stages is called "reverse bit ordering". While the output sample indices count up (0b00=0, 0b01=1, 0b10=2, 0b11=3), the input samples use reversed bit ordering, meaning 0b00=0, 0b10=2, 0b01=1, 0b11=3 - which makes it easy to get samples from e.g. a RAM. The corresponding address counter has to count up, but its output vector has to be bit order reversed and then connected to the address bus of the RAM.
+
+\chapter{Resource-Efficient, streamed Implementation}
+Inside an FPGA, we do have limited ressources available for mathematical computations. Usually, fast multipliers are available for DSP operations. Data storage in form of single port and dual port RAM is also available as a dedicated block. 
+
+We assume the samples for which the FFT/IFFT should be computed are input in a serial fashion, one after the other. Every new sample enables new mathematical operations to be performed and one new frequency domain sample to be output. 
+This is especially true for DSP applications such as OFDM, where frequency domain data can be serialised easily and in this step converted to bit-reversed-ordering. In such applications, not all time domain samples (result from the IFFT) are needed at the same time, they have to be output serially - one after the other - by means of I/Q-DACs for input to an I/Q-Modulator anyway.
+
+As can be seen, not the whole parallel FFT structure has to implemented for streaming data - it would exceed the available hardware resources anyway! There exist a variety of more or less efficient, pipelined FFT algorithms. 
+
+\section{R2MDC}
+The easiest one is the Radix-2-Multi-Path-Delay-Commutator (R2MDC), where the input sequence is broken into two parallel data streams, flowing forward with the correct distance. Butterfly units and multipliers are only utilized 50\% of the time, making it not very efficient.
+
+\section{R2SDF}
+The Radix-2-Single-Path-Delay-Feedback architecture uses only a single path for the data flow, improving utilisation of the hardware elements. As a good initial tradeoff between resource usage and description complexity, this architecture was chosen for implementation in this project.
+
+\section{Other Architectures}
+Many other architectures have been derived in the past, trading off hardware complexity, routing effort, power consumption against each other.
+
+\chapter{Interface specification}
+As the FFT should be streamed, only one input sample is input at every clock cycle. After running through the processing stages, one output sample is output. The input and output signals are of complex data type, real and imaginary components can be input on different signals. To temporarily halt operation of the FFT processing, a d\_valid signal is used, which has to be asserted to indicate valid data on the input.
+
+This results in the following interface specification:
+
+%* Inputs
+%    * clock -		System clock
+%    * reset -		resetting the internal logic to a point where sample 0 can be input afterwards
+ %   * d\_real -		real part of input sample
+ %   * d\_imag -		imaginary part of input sample
+ %   * d\_valid -	indicates valid data on d\_real and d\_imag
+%* Outputs
+%    * q\_real -		real part of output sample
+%    * q\_imag -		imaginary part of output sample
+%    * q\_first -	indicating the sample corresponding to index 0 is valid on the output
+ %   * q\_valid -	indicates validity of the data on the outputs
+
+\chapter{VHDL entities}
+The design is composed of small subunits, which are connected together in the top level entitity. Each module is designed and coded to be as universal as possible, having generics for all neccesary parameters. This allows setting the FFT size in a single top level generic, altering the internal structure automatically.
+This makes it easy to try out different FFT sizes for comparison of resource scaling and maximum clock speed.
+
+\begin{itemize}
+	\item FIFO
+	\begin{itemize}
+		\item Implementing a variable-size, variable-width first-in-first-out buffer. 		\item Each processing stage needs one of these.
+	\end{itemize}
+	\item Butterfly
+	\begin{itemize}
+		\item The main processing unit, 
+		\item two complex inputs and outputs
+		\item one control signal to change the data flow inside the butterfly
+	\end{itemize}
+	\item Twiddle factor ROM
+	\begin{itemize}
+		\item ROM for the complex twiddle factors.
+		\item populated with the correct values based on a generic 
+	\end{itemize}
+\end{itemize}
+
+

@@ -1,0 +1,37 @@
+\documentclass[a4paper]{scrreprt}
+
+\usepackage[german]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage[bottom=10em, top=5em]{geometry}
+\usepackage{amsmath}
+\usepackage[pdftex]{graphicx}
+\usepackage{booktabs, array}
+\usepackage{eurosym}
+
+\usepackage{chngcntr}
+\counterwithout{figure}{chapter}
+\renewcommand{\figurename}{Abbildung}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\begin{document}
+
+\author{S. Biereigel}
+\title{Implementation of the Fast Fourier Transform in VHDL}
+
+\input{./titelseite.tex}
+
+\tableofcontents
+\pagebreak
+
+\input{./content.tex}
+
+\input{./anhang.tex}
+
+\listoftables
+\listoffigures
+
+\end{document}
+
+
