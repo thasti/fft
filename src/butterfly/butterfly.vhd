@@ -39,12 +39,12 @@ begin
 
 		if ctl = '0' then
 			-- upper = upper
-			ou_re <= std_logic_vector(signed(iu_re) / 2);
-			ou_im <= std_logic_vector(signed(iu_im) / 2);
+			ou_re <= iu_re;
+			ou_im <= iu_im;
 
 			-- lower = lower
-			ol_re <= std_logic_vector(signed(il_re) / 2);
-			ol_im <= std_logic_vector(signed(il_im) / 2);
+			ol_re <= il_re;
+			ol_im <= il_im;
 		else
 			-- upper = (upper + lower)
 			ou_re <= std_logic_vector(resize(

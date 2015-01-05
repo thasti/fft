@@ -67,21 +67,21 @@ begin
 		wait until rising_edge(clk);
 		wait until falling_edge(clk);
 		-- check result
-		assert to_integer(signed(ou_re)) = (ure/2)
+		assert to_integer(signed(ou_re)) = (ure)
 		report "Upper real output incorrect. (ctl=0) "
-		& "Expected: " & integer'image(ure/2) & " Got: " & integer'image(to_integer(signed(ou_re)))
+		& "Expected: " & integer'image(ure) & " Got: " & integer'image(to_integer(signed(ou_re)))
 		severity failure;
-		assert to_integer(signed(ou_im)) = (uim/2)
+		assert to_integer(signed(ou_im)) = (uim)
 		report "Upper imaginary output incorrect. (ctl=0) "
-		& "Expected: " & integer'image(uim/2) & " Got: " & integer'image(to_integer(signed(ou_im)))
+		& "Expected: " & integer'image(uim) & " Got: " & integer'image(to_integer(signed(ou_im)))
 		severity failure;
-		assert to_integer(signed(ol_re)) = (lre/2)
+		assert to_integer(signed(ol_re)) = (lre)
 		report "Lower real output incorrect. (ctl=0) "
-		& "Expected: " & integer'image(lre/2) & " Got: " & integer'image(to_integer(signed(ol_re)))
+		& "Expected: " & integer'image(lre) & " Got: " & integer'image(to_integer(signed(ol_re)))
 		severity failure;
-		assert to_integer(signed(ol_im)) = (lim/2)
+		assert to_integer(signed(ol_im)) = (lim)
 		report "Lower imaginary output incorrect. (ctl=0) "
-		& "Expected: " & integer'image(lim/2) & " Got: " & integer'image(to_integer(signed(ol_im)))
+		& "Expected: " & integer'image(lim) & " Got: " & integer'image(to_integer(signed(ol_im)))
 		severity failure;
 
 		ctl <= '1';
