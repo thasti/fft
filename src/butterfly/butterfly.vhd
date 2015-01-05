@@ -29,10 +29,6 @@ end butterfly;
 architecture rtl of butterfly is
 begin
 	process
-	variable tmp_ure : std_logic_vector(iowidth downto 0);
-	variable tmp_uim : std_logic_vector(iowidth downto 0);
-	variable tmp_lre : std_logic_vector(iowidth downto 0);
-	variable tmp_lim : std_logic_vector(iowidth downto 0);
 	begin
 		-- connect FIFO on upper in and lower out
 		-- connect rotator on lower in and upper out
@@ -43,38 +39,32 @@ begin
 
 		if ctl = '0' then
 			-- upper = upper
-			tmp_ure := std_logic_vector(resize(signed(iu_re),iowidth+1) / 2);
-			tmp_uim := std_logic_vector(resize(signed(iu_im),iowidth+1) / 2);
+			ou_re <= std_logic_vector(signed(iu_re) / 2);
+			ou_im <= std_logic_vector(signed(iu_im) / 2);
 
 			-- lower = lower
-			tmp_lre := std_logic_vector(resize(signed(il_re),iowidth+1) / 2);
-			tmp_lim := std_logic_vector(resize(signed(il_im),iowidth+1) / 2);
+			ol_re <= std_logic_vector(signed(il_re) / 2);
+			ol_im <= std_logic_vector(signed(il_im) / 2);
 		else
 			-- upper = (upper + lower)
-			tmp_ure := std_logic_vector(
+			ou_re <= std_logic_vector(resize(
 				(resize(signed(iu_re),iowidth+1) +
-				resize(signed(il_re),iowidth+1)) / 2
+				resize(signed(il_re),iowidth+1)) / 2, iowidth)
 			);
-			tmp_uim := std_logic_vector(
+			ou_im <= std_logic_vector(resize(
 				(resize(signed(iu_im),iowidth+1) +
-				resize(signed(il_im),iowidth+1)) / 2
+				resize(signed(il_im),iowidth+1)) / 2, iowidth)
 			);
 			-- lower = (upper - lower)
-			tmp_lre := std_logic_vector(
+			ol_re <= std_logic_vector(resize(
 				(resize(signed(iu_re),iowidth+1) -
-				resize(signed(il_re),iowidth+1)) / 2
+				resize(signed(il_re),iowidth+1)) / 2, iowidth)
 			);
-			tmp_lim := std_logic_vector(
+			ol_im <= std_logic_vector(resize(
 				(resize(signed(iu_im),iowidth+1) -
-				resize(signed(il_im),iowidth+1)) / 2
+				resize(signed(il_im),iowidth+1)) / 2, iowidth)
 			);
 		end if;
-
-		-- apply division by two
-		ou_re <= tmp_ure(iowidth-1 downto 0);
-		ou_im <= tmp_uim(iowidth-1 downto 0);
-		ol_re <= tmp_lre(iowidth-1 downto 0);
-		ol_im <= tmp_lim(iowidth-1 downto 0);
 
 	end process;
 end rtl;
