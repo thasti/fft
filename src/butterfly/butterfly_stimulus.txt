@@ -1,0 +1,8 @@
+0 0 0 0 		# corner case: expecting zeros
+127 127 -128 -128 	# corner cases: expecting overflows, -1/2 should be 0
+1 -1 1 -1
+127 0 -128 127
+0 127 127 -128
+1 2 3 4 		# normal ones
+92 40 5 18
+2 2 2 2

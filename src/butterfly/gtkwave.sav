@@ -1,0 +1,42 @@
+[*]
+[*] GTKWave Analyzer v3.3.51 (w)1999-2013 BSI
+[*] Mon Jan  5 12:41:46 2015
+[*]
+[dumpfile] "/home/thasti/projekte/fft/src/butterfly/output.ghw"
+[dumpfile_mtime] "Mon Jan  5 12:39:05 2015"
+[dumpfile_size] 7943
+[savefile] "/home/thasti/projekte/fft/src/butterfly/gtkwave.sav"
+[timestart] 0
+[size] 1024 551
+[pos] 0 50
+*-29.000000 500000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.butterfly_tb.
+[sst_width] 216
+[signals_width] 141
+[sst_expanded] 1
+[sst_vpaned_height] 136
+@28
+top.butterfly_tb.clk
+top.butterfly_tb.ctl
+@420
+#{top.butterfly_tb.iu_re[7:0]} top.butterfly_tb.iu_re[7] top.butterfly_tb.iu_re[6] top.butterfly_tb.iu_re[5] top.butterfly_tb.iu_re[4] top.butterfly_tb.iu_re[3] top.butterfly_tb.iu_re[2] top.butterfly_tb.iu_re[1] top.butterfly_tb.iu_re[0]
+#{top.butterfly_tb.iu_im[7:0]} top.butterfly_tb.iu_im[7] top.butterfly_tb.iu_im[6] top.butterfly_tb.iu_im[5] top.butterfly_tb.iu_im[4] top.butterfly_tb.iu_im[3] top.butterfly_tb.iu_im[2] top.butterfly_tb.iu_im[1] top.butterfly_tb.iu_im[0]
+@200
+-
+@420
+#{top.butterfly_tb.il_re[7:0]} top.butterfly_tb.il_re[7] top.butterfly_tb.il_re[6] top.butterfly_tb.il_re[5] top.butterfly_tb.il_re[4] top.butterfly_tb.il_re[3] top.butterfly_tb.il_re[2] top.butterfly_tb.il_re[1] top.butterfly_tb.il_re[0]
+#{top.butterfly_tb.il_im[7:0]} top.butterfly_tb.il_im[7] top.butterfly_tb.il_im[6] top.butterfly_tb.il_im[5] top.butterfly_tb.il_im[4] top.butterfly_tb.il_im[3] top.butterfly_tb.il_im[2] top.butterfly_tb.il_im[1] top.butterfly_tb.il_im[0]
+@200
+-
+@420
+#{top.butterfly_tb.ou_re[7:0]} top.butterfly_tb.ou_re[7] top.butterfly_tb.ou_re[6] top.butterfly_tb.ou_re[5] top.butterfly_tb.ou_re[4] top.butterfly_tb.ou_re[3] top.butterfly_tb.ou_re[2] top.butterfly_tb.ou_re[1] top.butterfly_tb.ou_re[0]
+#{top.butterfly_tb.ou_im[7:0]} top.butterfly_tb.ou_im[7] top.butterfly_tb.ou_im[6] top.butterfly_tb.ou_im[5] top.butterfly_tb.ou_im[4] top.butterfly_tb.ou_im[3] top.butterfly_tb.ou_im[2] top.butterfly_tb.ou_im[1] top.butterfly_tb.ou_im[0]
+@200
+-
+@420
+#{top.butterfly_tb.ol_re[7:0]} top.butterfly_tb.ol_re[7] top.butterfly_tb.ol_re[6] top.butterfly_tb.ol_re[5] top.butterfly_tb.ol_re[4] top.butterfly_tb.ol_re[3] top.butterfly_tb.ol_re[2] top.butterfly_tb.ol_re[1] top.butterfly_tb.ol_re[0]
+@421
+#{top.butterfly_tb.ol_im[7:0]} top.butterfly_tb.ol_im[7] top.butterfly_tb.ol_im[6] top.butterfly_tb.ol_im[5] top.butterfly_tb.ol_im[4] top.butterfly_tb.ol_im[3] top.butterfly_tb.ol_im[2] top.butterfly_tb.ol_im[1] top.butterfly_tb.ol_im[0]
+[pattern_trace] 1
+[pattern_trace] 0
