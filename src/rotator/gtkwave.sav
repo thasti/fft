@@ -1,0 +1,35 @@
+[*]
+[*] GTKWave Analyzer v3.3.51 (w)1999-2013 BSI
+[*] Mon Jan  5 19:29:02 2015
+[*]
+[dumpfile] "/home/thasti/projekte/fft/src/rotator/output.ghw"
+[dumpfile_mtime] "Mon Jan  5 19:27:59 2015"
+[dumpfile_size] 889
+[savefile] "/home/thasti/projekte/fft/src/rotator/gtkwave.sav"
+[timestart] 0
+[size] 1024 551
+[pos] -1 50
+*-28.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.rotator_tb.
+[sst_width] 216
+[signals_width] 110
+[sst_expanded] 1
+[sst_vpaned_height] 136
+@28
+top.rotator_tb.clk
+@420
+#{top.rotator_tb.i_re[7:0]} top.rotator_tb.i_re[7] top.rotator_tb.i_re[6] top.rotator_tb.i_re[5] top.rotator_tb.i_re[4] top.rotator_tb.i_re[3] top.rotator_tb.i_re[2] top.rotator_tb.i_re[1] top.rotator_tb.i_re[0]
+#{top.rotator_tb.i_im[7:0]} top.rotator_tb.i_im[7] top.rotator_tb.i_im[6] top.rotator_tb.i_im[5] top.rotator_tb.i_im[4] top.rotator_tb.i_im[3] top.rotator_tb.i_im[2] top.rotator_tb.i_im[1] top.rotator_tb.i_im[0]
+@200
+-
+@420
+#{top.rotator_tb.tf_re[7:0]} top.rotator_tb.tf_re[7] top.rotator_tb.tf_re[6] top.rotator_tb.tf_re[5] top.rotator_tb.tf_re[4] top.rotator_tb.tf_re[3] top.rotator_tb.tf_re[2] top.rotator_tb.tf_re[1] top.rotator_tb.tf_re[0]
+#{top.rotator_tb.tf_im[7:0]} top.rotator_tb.tf_im[7] top.rotator_tb.tf_im[6] top.rotator_tb.tf_im[5] top.rotator_tb.tf_im[4] top.rotator_tb.tf_im[3] top.rotator_tb.tf_im[2] top.rotator_tb.tf_im[1] top.rotator_tb.tf_im[0]
+@200
+-
+@420
+#{top.rotator_tb.o_re[7:0]} top.rotator_tb.o_re[7] top.rotator_tb.o_re[6] top.rotator_tb.o_re[5] top.rotator_tb.o_re[4] top.rotator_tb.o_re[3] top.rotator_tb.o_re[2] top.rotator_tb.o_re[1] top.rotator_tb.o_re[0]
+#{top.rotator_tb.o_im[7:0]} top.rotator_tb.o_im[7] top.rotator_tb.o_im[6] top.rotator_tb.o_im[5] top.rotator_tb.o_im[4] top.rotator_tb.o_im[3] top.rotator_tb.o_im[2] top.rotator_tb.o_im[1] top.rotator_tb.o_im[0]
+[pattern_trace] 1
+[pattern_trace] 0
