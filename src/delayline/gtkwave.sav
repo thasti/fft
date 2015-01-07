@@ -1,0 +1,26 @@
+[*]
+[*] GTKWave Analyzer v3.3.51 (w)1999-2013 BSI
+[*] Wed Jan  7 08:32:03 2015
+[*]
+[dumpfile] "/home/thasti/projekte/fft/src/delayline/output.ghw"
+[dumpfile_mtime] "Wed Jan  7 08:31:43 2015"
+[dumpfile_size] 34260
+[savefile] "/home/thasti/projekte/fft/src/delayline/gtkwave.sav"
+[timestart] 0
+[size] 1024 551
+[pos] -23 50
+*-30.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.delayline_tb.
+[sst_width] 216
+[signals_width] 78
+[sst_expanded] 1
+[sst_vpaned_height] 136
+@28
+top.delayline_tb.clk
+@22
+#{top.delayline_tb.d[7:0]} top.delayline_tb.d[7] top.delayline_tb.d[6] top.delayline_tb.d[5] top.delayline_tb.d[4] top.delayline_tb.d[3] top.delayline_tb.d[2] top.delayline_tb.d[1] top.delayline_tb.d[0]
+@23
+#{top.delayline_tb.q[7:0]} top.delayline_tb.q[7] top.delayline_tb.q[6] top.delayline_tb.q[5] top.delayline_tb.q[4] top.delayline_tb.q[3] top.delayline_tb.q[2] top.delayline_tb.q[1] top.delayline_tb.q[0]
+[pattern_trace] 1
+[pattern_trace] 0
