@@ -5,7 +5,6 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
-use IEEE.math_real.all;
 
 entity delayline is
 	generic
@@ -17,17 +16,17 @@ entity delayline is
 	port
 	(
 		clk     : in std_logic;                                 -- System Clock
-
 		d       : in std_logic_vector(iowidth-1 downto 0);   -- Input Data
 		q       : out std_logic_vector(iowidth-1 downto 0)  -- Output Data
 	);
 end entity;
 
 architecture behavioral of delayline is
-type mem_type is array(integer(2.0**real(delay))-1 downto 0) of std_logic_vector(iowidth-1 downto 0);
-signal mem:             mem_type := (others => (others => '0'));
-signal read_adr:        unsigned(delay-1 downto 0) := (others => '0');
-signal write_adr:       unsigned(delay-1 downto 0) := (others => '1');
+type mem_type is array(integer(2**delay)-1 downto 0) of std_logic_vector(iowidth-1 downto 0);
+
+signal mem	:	mem_type := (others => (others => '0'));
+signal read_adr	:	unsigned(delay-1 downto 0) := (others => '0');
+signal write_adr:	unsigned(delay-1 downto 0) := (others => '1');
 begin
 	process
 	begin
