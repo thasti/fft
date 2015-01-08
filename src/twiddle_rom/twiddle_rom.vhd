@@ -33,8 +33,6 @@ architecture rtl of twiddle_rom is
 	type rom_t is array(0 to rom_length-1) of signed(outwidth-1 downto 0);
 	signal sin_rom 		: rom_t;
 	signal cos_rom 		: rom_t;
-	alias quadrant 		: std_logic_vector(1 downto 0) is arg(inwidth-1 downto inwidth-2);
-	alias index		: std_logic_vector(inwidth-3 downto 0) is arg(inwidth-3 downto 0);
 	signal address		: std_logic_vector(inwidth-2 downto 0);
 
 	signal output_sin	: std_logic_vector(outwidth-1 downto 0);
