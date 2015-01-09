@@ -19,7 +19,7 @@ entity counter is
 		en	: in std_logic;
 		rst	: in std_logic;
 		dir	: in std_logic;
-		q	: out std_logic_vector(width-1 downto 0) := (others => '0')
+		q	: out std_logic_vector(width-1 downto 0) := (others => '1')
 	);
 end counter;
 
@@ -30,7 +30,7 @@ begin
 	begin
 		wait until rising_edge(clk);
 		if (rst = '1') then
-			cnt <= (others => '0');
+			cnt <= (others => '1');
 		elsif (en = '1') then
 			if (dir = '1') then
 				cnt <= cnt + to_unsigned(1, cnt'length);
