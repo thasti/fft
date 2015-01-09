@@ -28,11 +28,11 @@ end butterfly;
 
 architecture rtl of butterfly is
 begin
-	process
+	process (ctl, iu_re, iu_im, il_re, il_im)
 	begin
 		-- connect FIFO on upper in and lower out
 		-- connect rotator on lower in and upper out
-		wait until rising_edge(clk);
+		-- wait until rising_edge(clk);
 		-- additions are followed by division by two to ensure bounded output
 		-- every stage would have a bit growth of one bit otherwise
 		-- Operator "/" is used to ensure a correct rounding scheme is used (needs additional logic)
@@ -42,7 +42,7 @@ begin
 			ou_re <= iu_re;
 			ou_im <= iu_im;
 
-			-- lower = lower
+			-- lower = lower)
 			ol_re <= il_re;
 			ol_im <= il_im;
 		else
