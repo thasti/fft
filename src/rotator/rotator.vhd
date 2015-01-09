@@ -33,7 +33,7 @@ end rotator;
 --  (A*C) - (B*D) + j[(A+B)*(C+D) - (A*C) - (B*D)] (three multiplies, four additions)
 architecture fourmult of rotator is
 begin
-	process
+	process -- (i_re, i_im, tf_re, tf_im)
 	variable temp1 : signed(2*iowidth-1 downto 0);	-- A * C
 	variable temp2 : signed(2*iowidth-1 downto 0);	-- B * D
 	variable temp3 : signed(2*iowidth-1 downto 0);	-- A * D
@@ -52,14 +52,6 @@ begin
 		temp5 := temp1 - temp2;
 		temp6 := temp3 + temp4;
 
-		-- o_re <= std_logic_vector(resize(
-		-- 	(resize(temp1(2*iowidth-2 downto iowidth-1),iowidth+1) -
-		-- 	resize(temp2(2*iowidth-2 downto iowidth-1), iowidth+1) / 2), iowidth)
-		-- );
-		-- o_im <= std_logic_vector(resize(
-		-- 	(resize(temp3(2*iowidth-2 downto iowidth-1),iowidth+1) +
-		-- 	resize(temp4(2*iowidth-2 downto iowidth-1), iowidth+1) / 2), iowidth)
-		-- );
 		o_re <= std_logic_vector(
 			temp5(2*iowidth-1 downto iowidth) / 2
 		);
