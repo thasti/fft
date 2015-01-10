@@ -32,7 +32,7 @@ begin
 	begin
 		wait until rising_edge(clk);
 
-		o_re <= i_re*tf_re + i_im*tf_im;
+		o_re <= i_re*tf_re - i_im*tf_im;
 		o_im <= i_re*tf_im + i_im*tf_re;
 	end process;
 end fourmult;
