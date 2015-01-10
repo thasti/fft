@@ -74,10 +74,13 @@ begin
 	q_cos <=	output_cos when ctl = '1' else
 			'0' & std_logic_vector(to_signed(-1, q_cos'length-1)); -- real part = +1
 
+	-- TODO: address has to be one in advance - FIX
+	address <= arg(inwidth-1 downto 0);
+
 	output : process
 	begin
 		wait until rising_edge(clk);
-		address <= arg(inwidth-1 downto 0);
+		-- address <= arg(inwidth-1 downto 0);
 	end process;
 end rtl;
 
