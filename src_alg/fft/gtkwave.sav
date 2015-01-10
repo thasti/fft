@@ -1,0 +1,29 @@
+[*]
+[*] GTKWave Analyzer v3.3.51 (w)1999-2013 BSI
+[*] Sat Jan 10 19:17:56 2015
+[*]
+[dumpfile] "/home/thasti/projekte/fft/src/real/fft/output.ghw"
+[dumpfile_mtime] "Sat Jan 10 19:17:44 2015"
+[dumpfile_size] 33052
+[savefile] "/home/thasti/projekte/fft/src/real/fft/gtkwave.sav"
+[timestart] 0
+[size] 1024 551
+[pos] 0 0
+*-30.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.fft_tb.
+[treeopen] top.fft_tb.dut.
+[sst_width] 259
+[signals_width] 134
+[sst_expanded] 1
+[sst_vpaned_height] 209
+@28
+top.fft_tb.rst
+top.fft_tb.clk
+top.fft_tb.dut.d_re
+top.fft_tb.dut.d_im
+top.fft_tb.dut.q_re
+@29
+top.fft_tb.dut.q_im
+[pattern_trace] 1
+[pattern_trace] 0
