@@ -1,45 +1,32 @@
 [*]
 [*] GTKWave Analyzer v3.3.51 (w)1999-2013 BSI
-[*] Thu Jan  8 18:00:45 2015
+[*] Sat Jan 10 09:44:53 2015
 [*]
 [dumpfile] "/home/thasti/projekte/fft/src/twiddle_rom/output.ghw"
-[dumpfile_mtime] "Thu Jan  8 17:51:05 2015"
-[dumpfile_size] 546029
+[dumpfile_mtime] "Sat Jan 10 09:43:29 2015"
+[dumpfile_size] 471041
 [savefile] "/home/thasti/projekte/fft/src/twiddle_rom/gtkwave.sav"
 [timestart] 0
 [size] 1024 551
 [pos] 0 0
 *-29.000000 126686000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
-[treeopen] top.sincos_tb.
+[treeopen] top.twiddle_rom_tb.
 [sst_width] 216
 [signals_width] 179
 [sst_expanded] 1
 [sst_vpaned_height] 136
 @28
-top.sincos_tb.clk
-@22
-#{top.sincos_tb.arg[11:0]} top.sincos_tb.arg[2] top.sincos_tb.arg[1] top.sincos_tb.arg[0]
-@8420
-#{top.sincos_tb.q_sin[7:0]} top.sincos_tb.q_sin[7] top.sincos_tb.q_sin[6] top.sincos_tb.q_sin[5] top.sincos_tb.q_sin[4] top.sincos_tb.q_sin[3] top.sincos_tb.q_sin[2] top.sincos_tb.q_sin[1] top.sincos_tb.q_sin[0]
+top.twiddle_rom_tb.clk
+top.twiddle_rom_tb.ctl
+#{top.twiddle_rom_tb.arg[1:0]} top.twiddle_rom_tb.arg[1] top.twiddle_rom_tb.arg[0]
+@420
+#{top.twiddle_rom_tb.q_sin[7:0]} top.twiddle_rom_tb.q_sin[7] top.twiddle_rom_tb.q_sin[6] top.twiddle_rom_tb.q_sin[5] top.twiddle_rom_tb.q_sin[4] top.twiddle_rom_tb.q_sin[3] top.twiddle_rom_tb.q_sin[2] top.twiddle_rom_tb.q_sin[1] top.twiddle_rom_tb.q_sin[0]
 @20000
 -
--
-@c08421
-#{top.sincos_tb.q_cos[7:0]} top.sincos_tb.q_cos[7] top.sincos_tb.q_cos[6] top.sincos_tb.q_cos[5] top.sincos_tb.q_cos[4] top.sincos_tb.q_cos[3] top.sincos_tb.q_cos[2] top.sincos_tb.q_cos[1] top.sincos_tb.q_cos[0]
-@29
-top.sincos_tb.q_cos[7]
-top.sincos_tb.q_cos[6]
-top.sincos_tb.q_cos[5]
-top.sincos_tb.q_cos[4]
-top.sincos_tb.q_cos[3]
-top.sincos_tb.q_cos[2]
-top.sincos_tb.q_cos[1]
-top.sincos_tb.q_cos[0]
-@1401201
--group_end
+@420
+#{top.twiddle_rom_tb.q_cos[7:0]} top.twiddle_rom_tb.q_cos[7] top.twiddle_rom_tb.q_cos[6] top.twiddle_rom_tb.q_cos[5] top.twiddle_rom_tb.q_cos[4] top.twiddle_rom_tb.q_cos[3] top.twiddle_rom_tb.q_cos[2] top.twiddle_rom_tb.q_cos[1] top.twiddle_rom_tb.q_cos[0]
 @20000
--
 -
 [pattern_trace] 1
 [pattern_trace] 0
