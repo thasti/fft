@@ -79,7 +79,7 @@ begin
 
 			dl_im : entity work.delayline
 			generic map (
-				delay => length-n-2,
+				delay => length-n-1,
 				iowidth => iowidth
 			)
 			port map (

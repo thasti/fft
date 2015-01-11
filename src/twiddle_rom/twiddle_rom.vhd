@@ -56,7 +56,7 @@ begin
 	--  (0,4,..,N/2-1) for third stage (N/8 factors, exponent = inwidth-3)
 	table : for i in 0 to rom_length-1 generate
 		sin_rom(i) <= to_signed(integer(
-			sin(MATH_2_PI * real((2**(exponent-inwidth-1))*i) / real(2**exponent)) * (real(rom_max)/2.0-1.0)
+			-sin(MATH_2_PI * real((2**(exponent-inwidth-1))*i) / real(2**exponent)) * (real(rom_max)/2.0-1.0)
 			), outwidth);
 		cos_rom(i) <= to_signed(integer(
 			cos(MATH_2_PI * real((2**(exponent-inwidth-1))*i) / real(2**exponent)) * (real(rom_max)/2.0-1.0)
@@ -67,20 +67,17 @@ begin
 	output_sin <= std_logic_vector(sin_rom(to_integer(unsigned(address))));
 	output_cos <= std_logic_vector(cos_rom(to_integer(unsigned(address))));
 
-	q_sin <=	output_sin when ctl = '1' else
+	q_sin <=	output_sin when ctl = '0' else
 			(others => '0'); -- imaginary part = 0
 
 
-	q_cos <=	output_cos when ctl = '1' else
+	q_cos <=	output_cos when ctl = '0' else
 			'0' & std_logic_vector(to_signed(-1, q_cos'length-1)); -- real part = +1
-
-	-- TODO: address has to be one in advance - FIX
-	address <= arg(inwidth-1 downto 0);
 
 	output : process
 	begin
 		wait until rising_edge(clk);
-		-- address <= arg(inwidth-1 downto 0);
+		address <= std_logic_vector(unsigned(arg(inwidth-1 downto 0)) + to_unsigned(1, inwidth));
 	end process;
 end rtl;
 
