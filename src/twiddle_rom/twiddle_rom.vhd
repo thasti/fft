@@ -63,10 +63,6 @@ begin
 			), outwidth);
 	end generate;
 
-
-	output_sin <= std_logic_vector(sin_rom(to_integer(unsigned(address))));
-	output_cos <= std_logic_vector(cos_rom(to_integer(unsigned(address))));
-
 	q_sin <=	output_sin when ctl = '0' else
 			(others => '0'); -- imaginary part = 0
 
@@ -77,7 +73,9 @@ begin
 	output : process
 	begin
 		wait until rising_edge(clk);
-		address <= std_logic_vector(unsigned(arg(inwidth-1 downto 0)) + to_unsigned(1, inwidth));
+		address <= std_logic_vector(unsigned(arg(inwidth-1 downto 0)) + to_unsigned(2, inwidth));
+		output_sin <= std_logic_vector(sin_rom(to_integer(unsigned(address))));
+		output_cos <= std_logic_vector(cos_rom(to_integer(unsigned(address))));
 	end process;
 end rtl;
 
