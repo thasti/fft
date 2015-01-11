@@ -1,0 +1,14 @@
+*.ghw
+*.cf
+*.swp
+*.toc
+*.html
+*.pdf
+*.lof
+*.lot
+*.log
+*.out
+*.gz
+*.aux
+*.m~
+
