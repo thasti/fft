@@ -36,9 +36,7 @@ begin
 process
 	variable dre : real;
 	variable dim : real;
-	variable qre : real;
-	variable qim : real;
-	variable l : line;
+	variable li : line;
 	file input_file : text is in "fft_stimulus.txt";
 begin
 	wait until rising_edge(clk);
@@ -46,9 +44,9 @@ begin
 	wait until rising_edge(clk);
 	while not endfile(input_file) loop
 		report "Feeding input sample ...";
-		readline(input_file, l);
-		read(l, dre);
-		read(l, dim);
+		readline(input_file, li);
+		read(li, dre);
+		read(li, dim);
 		report "Re: " & real'image(dre) & " Im: " & real'image(dim);
 
 		d_re <= dre;
@@ -58,6 +56,21 @@ begin
 
 	end loop;
 	wait;
+end process;
+
+process
+	variable i : integer := 0;
+	variable lo : line;
+	variable space : character := ' ';
+	file output_file : text is out "fft_output.txt";
+begin
+	wait until rising_edge(clk);
+	if q_re < 1000000.0 and q_re > -1000000.0 then
+		write(lo, real'image(q_re));
+		write(lo, space);
+		write(lo, real'image(q_im));
+		writeline(output_file, lo);
+	end if;
 end process;
 
 end tb;
