@@ -20,6 +20,7 @@ begin
 	dut : entity work.fft
 	generic map (
 		iowidth => 8,
+		tf_width => 8,
 		length => 2
 	)
 	port map (

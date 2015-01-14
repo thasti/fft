@@ -10,6 +10,7 @@ entity fft is
 	generic (
 		-- input bit width (given in bits)
 		iowidth	: positive := 8;
+		tf_width: positive := 8;
 		-- FFT length (given as exponent of 2^N)
 		length	: positive := 8
 	);
@@ -34,12 +35,13 @@ architecture dif_r2sdf of fft is
 	-- N DL to BF connections (dl2bf)
 	-- N BF to DL connections (bf2dl)
 	type con_sig is array (natural range <>) of std_logic_vector(iowidth-1 downto 0);
+	type tf_sig is array (natural range <>) of std_logic_vector(tf_width-1 downto 0);
 	signal bf2rot_re : con_sig(0 to length-1);
 	signal bf2rot_im : con_sig(0 to length-1);
 	signal rot2bf_re : con_sig(0 to length-1);
 	signal rot2bf_im : con_sig(0 to length-1);
-	signal rom2rot_re: con_sig(0 to length-1);
-	signal rom2rot_im: con_sig(0 to length-1);
+	signal rom2rot_re: tf_sig(0 to length-1);
+	signal rom2rot_im: tf_sig(0 to length-1);
 	signal bf2dl_re  : con_sig(0 to length-1);
 	signal bf2dl_im  : con_sig(0 to length-1);
 	signal dl2bf_re  : con_sig(0 to length-1);
@@ -91,7 +93,8 @@ begin
 			-- rotators (ROT)
 			rotator : entity work.rotator
 			generic map (
-				iowidth => iowidth
+				d_width => iowidth,
+				tf_width => tf_width
 			)
 			port map (
 				clk => clk,
@@ -108,7 +111,7 @@ begin
 			generic map (
 				exponent => length,
 				inwidth => length-n-1,
-				outwidth => iowidth
+				outwidth => tf_width
 			)
 			port map (
 				clk => clk,

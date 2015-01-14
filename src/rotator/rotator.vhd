@@ -11,17 +11,18 @@ use ieee.math_real.all;
 entity rotator is
 	generic (
 		-- input bit width
-		iowidth		: positive := 8
+		d_width		: positive := 8;
+		tf_width	: positive := 8
 	);
 
 	port (
 		clk		: in std_logic;
-		i_re		: in std_logic_vector(iowidth-1 downto 0);
-		i_im		: in std_logic_vector(iowidth-1 downto 0);
-		tf_re		: in std_logic_vector(iowidth-1 downto 0);
-		tf_im		: in std_logic_vector(iowidth-1 downto 0);
-		o_re		: out std_logic_vector(iowidth-1 downto 0);
-		o_im		: out std_logic_vector(iowidth-1 downto 0)
+		i_re		: in std_logic_vector(d_width-1 downto 0);
+		i_im		: in std_logic_vector(d_width-1 downto 0);
+		tf_re		: in std_logic_vector(tf_width-1 downto 0);
+		tf_im		: in std_logic_vector(tf_width-1 downto 0);
+		o_re		: out std_logic_vector(d_width-1 downto 0);
+		o_im		: out std_logic_vector(d_width-1 downto 0)
 	);
 end rotator;
 
@@ -33,30 +34,30 @@ end rotator;
 --  (A*C) - (B*D) + j[(A+B)*(C+D) - (A*C) - (B*D)] (three multiplies, four additions)
 architecture fourmult of rotator is
 begin
-	process -- (i_re, i_im, tf_re, tf_im)
-	variable temp1 : signed(2*iowidth-1 downto 0);	-- A * C
-	variable temp2 : signed(2*iowidth-1 downto 0);	-- B * D
-	variable temp3 : signed(2*iowidth-1 downto 0);	-- A * D
-	variable temp4 : signed(2*iowidth-1 downto 0);	-- B * C
-	variable temp5 : signed(2*iowidth-1 downto 0);	-- A * C - B * D
-	variable temp6 : signed(2*iowidth-1 downto 0);	-- A * D + B * C
+	process
+	variable temp1 : signed((d_width+tf_width)-1 downto 0);	-- A * C
+	variable temp2 : signed((d_width+tf_width)-1 downto 0);	-- B * D
+	variable temp3 : signed((d_width+tf_width)-1 downto 0);	-- A * D
+	variable temp4 : signed((d_width+tf_width)-1 downto 0);	-- B * C
+	variable temp5 : signed((d_width+tf_width)-1 downto 0);	-- A * C - B * D
+	variable temp6 : signed((d_width+tf_width)-1 downto 0);	-- A * D + B * C
 	begin
 		wait until rising_edge(clk);
 
 		-- out = in * tf
-		temp1 := signed(i_re) * signed(tf_re) + integer(2.0**real(iowidth-2));
-		temp2 := signed(i_im) * signed(tf_im) + integer(2.0**real(iowidth-2));
-		temp3 := signed(i_re) * signed(tf_im) + integer(2.0**real(iowidth-2));
-		temp4 := signed(i_im) * signed(tf_re) + integer(2.0**real(iowidth-2));
+		temp1 := signed(i_re) * signed(tf_re) + integer(2.0**real((d_width+tf_width)/2-2));
+		temp2 := signed(i_im) * signed(tf_im) + integer(2.0**real((d_width+tf_width)/2-2));
+		temp3 := signed(i_re) * signed(tf_im) + integer(2.0**real((d_width+tf_width)/2-2));
+		temp4 := signed(i_im) * signed(tf_re) + integer(2.0**real((d_width+tf_width)/2-2));
 
 		temp5 := temp1 - temp2;
 		temp6 := temp3 + temp4;
 
 		o_re <= std_logic_vector(
-			temp5(2*iowidth-1 downto iowidth) / 2
+			temp5(d_width+tf_width-1 downto tf_width)
 		);
 		o_im <= std_logic_vector(
-			temp6(2*iowidth-1 downto iowidth) / 2
+			temp6(d_width+tf_width-1 downto tf_width)
 		);
 	end process;
 end fourmult;
