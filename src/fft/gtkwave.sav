@@ -1,20 +1,20 @@
 [*]
 [*] GTKWave Analyzer v3.3.51 (w)1999-2013 BSI
-[*] Fri Jan  9 18:44:30 2015
+[*] Sun Jan 18 19:29:02 2015
 [*]
 [dumpfile] "/home/thasti/projekte/fft/src/fft/output.ghw"
-[dumpfile_mtime] "Fri Jan  9 18:44:07 2015"
-[dumpfile_size] 106680
+[dumpfile_mtime] "Sun Jan 18 19:22:00 2015"
+[dumpfile_size] 102769
 [savefile] "/home/thasti/projekte/fft/src/fft/gtkwave.sav"
-[timestart] 0
+[timestart] 3440000000
 [size] 1024 551
 [pos] 0 0
-*-30.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-31.000000 5500000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.fft_tb.
 [treeopen] top.fft_tb.dut.
 [sst_width] 259
-[signals_width] 134
+[signals_width] 165
 [sst_expanded] 1
 [sst_vpaned_height] 209
 @28
@@ -23,9 +23,13 @@ top.fft_tb.clk
 @420
 #{top.fft_tb.d_re[7:0]} top.fft_tb.d_re[7] top.fft_tb.d_re[6] top.fft_tb.d_re[5] top.fft_tb.d_re[4] top.fft_tb.d_re[3] top.fft_tb.d_re[2] top.fft_tb.d_re[1] top.fft_tb.d_re[0]
 #{top.fft_tb.d_im[7:0]} top.fft_tb.d_im[7] top.fft_tb.d_im[6] top.fft_tb.d_im[5] top.fft_tb.d_im[4] top.fft_tb.d_im[3] top.fft_tb.d_im[2] top.fft_tb.d_im[1] top.fft_tb.d_im[0]
-@421
-#{top.fft_tb.q_re[7:0]} top.fft_tb.q_re[7] top.fft_tb.q_re[6] top.fft_tb.q_re[5] top.fft_tb.q_re[4] top.fft_tb.q_re[3] top.fft_tb.q_re[2] top.fft_tb.q_re[1] top.fft_tb.q_re[0]
-@420
-#{top.fft_tb.q_im[7:0]} top.fft_tb.q_im[7] top.fft_tb.q_im[6] top.fft_tb.q_im[5] top.fft_tb.q_im[4] top.fft_tb.q_im[3] top.fft_tb.q_im[2] top.fft_tb.q_im[1] top.fft_tb.q_im[0]
+@88420
+#{top.fft_tb.dut.q_re[11:0]} top.fft_tb.dut.q_re[11] top.fft_tb.dut.q_re[10] top.fft_tb.dut.q_re[9] top.fft_tb.dut.q_re[8] top.fft_tb.dut.q_re[7] top.fft_tb.dut.q_re[6] top.fft_tb.dut.q_re[5] top.fft_tb.dut.q_re[4] top.fft_tb.dut.q_re[3] top.fft_tb.dut.q_re[2] top.fft_tb.dut.q_re[1] top.fft_tb.dut.q_re[0]
+@20000
+-
+@88421
+#{top.fft_tb.dut.q_im[11:0]} top.fft_tb.dut.q_im[11] top.fft_tb.dut.q_im[10] top.fft_tb.dut.q_im[9] top.fft_tb.dut.q_im[8] top.fft_tb.dut.q_im[7] top.fft_tb.dut.q_im[6] top.fft_tb.dut.q_im[5] top.fft_tb.dut.q_im[4] top.fft_tb.dut.q_im[3] top.fft_tb.dut.q_im[2] top.fft_tb.dut.q_im[1] top.fft_tb.dut.q_im[0]
+@20000
+-
 [pattern_trace] 1
 [pattern_trace] 0

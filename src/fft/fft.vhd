@@ -75,8 +75,8 @@ begin
 			)
 			port map (
 				clk => clk,
-				d => bf2dl_re(n)(d_width+n-1 downto 0),
-				q => dl2bf_re(n)(d_width+n-1 downto 0)
+				d => bf2dl_re(n)(d_width+n downto 0),
+				q => dl2bf_re(n)(d_width+n downto 0)
 			);
 
 			dl_im : entity work.delayline
@@ -86,8 +86,8 @@ begin
 			)
 			port map (
 				clk => clk,
-				d => bf2dl_im(n)(d_width+n-1 downto 0),
-				q => dl2bf_im(n)(d_width+n-1 downto 0)
+				d => bf2dl_im(n)(d_width+n downto 0),
+				q => dl2bf_im(n)(d_width+n downto 0)
 			);
 
 			-- rotators (ROT)
@@ -98,12 +98,12 @@ begin
 			)
 			port map (
 				clk => clk,
-				i_re => bf2rot_re(n)(d_width+n-1 downto 0),
-				i_im => bf2rot_im(n)(d_width+n-1 downto 0),
+				i_re => bf2rot_re(n)(d_width+n downto 0),
+				i_im => bf2rot_im(n)(d_width+n downto 0),
 				tf_re => rom2rot_re(n),
 				tf_im => rom2rot_im(n),
-				o_re => rot2bf_re(n+1)(d_width+n-1 downto 0),
-				o_im => rot2bf_im(n+1)(d_width+n-1 downto 0)
+				o_re => rot2bf_re(n+1)(d_width+n downto 0),
+				o_im => rot2bf_im(n+1)(d_width+n downto 0)
 			);
 
 			-- TF ROMs (TF)
@@ -130,8 +130,8 @@ begin
 		port map (
 			clk => clk,
 			ctl => ctl_cnt(n)(length-n-1),
-			iu_re => dl2bf_re(n)(d_width+n-1 downto 0),
-			iu_im => dl2bf_im(n)(d_width+n-1 downto 0),
+			iu_re => dl2bf_re(n)(d_width+n downto 0),
+			iu_im => dl2bf_im(n)(d_width+n downto 0),
 			il_re => rot2bf_re(n)(d_width+n-1 downto 0),
 			il_im => rot2bf_im(n)(d_width+n-1 downto 0),
 			ou_re => bf2rot_re(n)(d_width+n downto 0),

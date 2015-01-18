@@ -54,10 +54,10 @@ begin
 		temp6 := temp3 + temp4;
 
 		o_re <= std_logic_vector(
-			temp5(d_width+tf_width-1 downto tf_width)
+			temp5(d_width+tf_width-2 downto tf_width-1)
 		);
 		o_im <= std_logic_vector(
-			temp6(d_width+tf_width-1 downto tf_width)
+			temp6(d_width+tf_width-2 downto tf_width-1)
 		);
 	end process;
 end fourmult;
