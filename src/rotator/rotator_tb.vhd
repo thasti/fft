@@ -21,7 +21,8 @@ architecture tb of rotator_tb is
 begin
 	dut : entity work.rotator
 	generic map (
-		iowidth => 8
+		d_width => 8,
+		tf_width => 8
 	)
 	port map (
 		clk => clk,
@@ -62,12 +63,10 @@ begin
 		tf_im <= std_logic_vector(to_signed(tfim,iowidth));
 
 		-- apply Q0.7 multiplication
+		-- TODO rounding
 		res_re := ((ire * tfre) - (iim * tfim))/64;
 		res_im := ((ire * tfim) + (iim * tfre))/64;
 
-		-- apply division by two because of bit growth in addition
-		res_re := res_re / 2;
-		res_im := res_im / 2;
 		wait until rising_edge(clk);
 		wait until falling_edge(clk);
 		-- check result
