@@ -36,7 +36,7 @@ begin
 	clk <= not clk after 100 ns;
 	rst <= '0' after 200 ns;
 
-process
+read_input : process
 	variable dre : integer;
 	variable dim : integer;
 	variable qre : integer;
@@ -61,6 +61,24 @@ begin
 
 	end loop;
 	wait;
+end process;
+
+write_output : process
+	variable i : integer := 0;
+	variable lo : line;
+	variable space : character := ' ';
+	file output_file : text is out "fft_output.txt";
+begin
+	wait until rising_edge(clk);
+	i := i + 1;
+	-- write out only one block of samples
+	-- (account for the stage-induced register delay here)
+	if (i > ((2**length)+length) and i < 2**(length+1)+length+1) then
+		write(lo, to_integer(signed(q_re)));
+		write(lo, space);
+		write(lo, to_integer(signed(q_im)));
+		writeline(output_file, lo);
+	end if;
 end process;
 
 end tb;
