@@ -1,7 +1,9 @@
--- delay line
+-- Delay Line
 -- Implements a sample delay of N/2 samples
 -- Can be used with >= 2 samples delay.
+--
 -- Adapted from fifo.vhd by Sebastian Weiss, DL3YC
+-- Author: Stefan Biereigel, DK3SB
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
@@ -21,7 +23,8 @@ entity delayline is
 	);
 end entity;
 
-architecture behavioral of delayline is
+-- architecture synthesizes as a ROM on Altera FPGAs (when >16 samples deep)
+architecture rtl of delayline is
 type mem_type is array(integer(2**delay)-1 downto 0) of std_logic_vector(iowidth-1 downto 0);
 
 signal mem	:	mem_type := (others => (others => '0'));
@@ -37,4 +40,4 @@ begin
 		q <= mem(to_integer(read_adr));
 	end process;
 
-end behavioral;
+end rtl;
