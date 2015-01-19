@@ -150,6 +150,7 @@ begin
 	begin
 		-- the 1 sample delay can not be inferred from delayline
 		-- use a simple register as described below
+		-- TODO this clutters the RTL viewer (many D-FFs) - find a way to encapsule these
 		wait until rising_edge(clk);
 		dl2bf_re(length-1) <= bf2dl_re(length-1);
 		dl2bf_im(length-1) <= bf2dl_im(length-1);
