@@ -11,14 +11,14 @@ architecture tb of butterfly_tb is
 
 	signal clk	: std_logic := '0';
 	signal ctl	: std_logic := '0';
-	signal iu_re	: std_logic_vector(iowidth-1 downto 0);
-	signal iu_im	: std_logic_vector(iowidth-1 downto 0);
+	signal iu_re	: std_logic_vector(iowidth downto 0);
+	signal iu_im	: std_logic_vector(iowidth downto 0);
 	signal il_re	: std_logic_vector(iowidth-1 downto 0);
 	signal il_im	: std_logic_vector(iowidth-1 downto 0);
-	signal ou_re	: std_logic_vector(iowidth-1 downto 0);
-	signal ou_im	: std_logic_vector(iowidth-1 downto 0);
-	signal ol_re	: std_logic_vector(iowidth-1 downto 0);
-	signal ol_im	: std_logic_vector(iowidth-1 downto 0);
+	signal ou_re	: std_logic_vector(iowidth downto 0);
+	signal ou_im	: std_logic_vector(iowidth downto 0);
+	signal ol_re	: std_logic_vector(iowidth downto 0);
+	signal ol_im	: std_logic_vector(iowidth downto 0);
 
 begin
 	dut : entity work.butterfly
@@ -60,8 +60,8 @@ begin
 		& integer'image(lre) & " Im: " & integer'image(lim);
 
 		ctl <= '0';
-		iu_re <= std_logic_vector(to_signed(ure,iowidth));
-		iu_im <= std_logic_vector(to_signed(uim,iowidth));
+		iu_re <= std_logic_vector(to_signed(ure,iowidth+1));
+		iu_im <= std_logic_vector(to_signed(uim,iowidth+1));
 		il_re <= std_logic_vector(to_signed(lre,iowidth));
 		il_im <= std_logic_vector(to_signed(lim,iowidth));
 		wait until rising_edge(clk);
@@ -88,21 +88,21 @@ begin
 		wait until rising_edge(clk);
 		wait until falling_edge(clk);
 		-- check result
-		assert to_integer(signed(ou_re)) = ((ure + lre)/2)
+		assert to_integer(signed(ou_re)) = ((ure + lre))
 		report "Upper real output incorrect. (ctl=1) "
-		& "Expected: " & integer'image((ure + lre)/2) & " Got: " & integer'image(to_integer(signed(ou_re)))
+		& "Expected: " & integer'image((ure + lre)) & " Got: " & integer'image(to_integer(signed(ou_re)))
 		severity failure;
-		assert to_integer(signed(ou_im)) = ((uim + lim)/2)
+		assert to_integer(signed(ou_im)) = ((uim + lim))
 		report "Upper imaginary output incorrect. (ctl=1) "
-		& "Expected: " & integer'image((uim + lim)/2) & " Got: " & integer'image(to_integer(signed(ou_im)))
+		& "Expected: " & integer'image((uim + lim)) & " Got: " & integer'image(to_integer(signed(ou_im)))
 		severity failure;
-		assert to_integer(signed(ol_re)) = ((ure - lre)/2)
+		assert to_integer(signed(ol_re)) = ((ure - lre))
 		report "Lower real output incorrect. (ctl=1) "
-		& "Expected: " & integer'image((ure - lre)/2) & " Got: " & integer'image(to_integer(signed(ol_re)))
+		& "Expected: " & integer'image((ure - lre)) & " Got: " & integer'image(to_integer(signed(ol_re)))
 		severity failure;
-		assert to_integer(signed(ol_im)) = ((uim - lim)/2)
+		assert to_integer(signed(ol_im)) = ((uim - lim))
 		report "Lower imaginary output incorrect. (ctl=1) "
-		& "Expected: " & integer'image((uim - lim)/2) & " Got: " & integer'image(to_integer(signed(ol_im)))
+		& "Expected: " & integer'image((uim - lim)) & " Got: " & integer'image(to_integer(signed(ol_im)))
 		severity failure;
 
 		report "... done.";

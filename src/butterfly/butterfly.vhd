@@ -1,5 +1,19 @@
 -- dynamic butterfly for FFT operation
 -- Implements the Dynamic Butterfly needed for R2SDF pipelined FFT
+--
+-- connect FIFO on upper in and lower out
+-- connect rotator on lower in and upper out
+--
+-- butterfly has two modes:
+-- 1) input-passthrough - passes input to memory and memory (results) to output
+-- 2) butterfly - does the addition/subtraction part
+--
+-- input samples are iowidth bits wide
+-- output samples are iowidth+1 bits wide (bit growth due to addition)
+-- input samples from the delay line are also one bit wider,
+--  because we want to store 9 bit results.
+-- when letting samples pass, they are sign extended to 9 bits
+--
 -- Author: Stefan Biereigel
 
 library ieee;
@@ -30,11 +44,6 @@ architecture rtl of butterfly is
 begin
 	process (ctl, iu_re, iu_im, il_re, il_im)
 	begin
-		-- connect FIFO on upper in and lower out
-		-- connect rotator on lower in and upper out
-		-- wait until rising_edge(clk);
-		-- every stage has a bit growth of one bit
-
 		if ctl = '0' then
 			-- upper = upper
 			ou_re <= iu_re;
