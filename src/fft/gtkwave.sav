@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.51 (w)1999-2013 BSI
-[*] Sun Jan 18 19:29:02 2015
+[*] Mon Jan 19 16:35:26 2015
 [*]
 [dumpfile] "/home/thasti/projekte/fft/src/fft/output.ghw"
-[dumpfile_mtime] "Sun Jan 18 19:22:00 2015"
-[dumpfile_size] 102769
+[dumpfile_mtime] "Mon Jan 19 16:31:41 2015"
+[dumpfile_size] 440513
 [savefile] "/home/thasti/projekte/fft/src/fft/gtkwave.sav"
-[timestart] 3440000000
+[timestart] 3000000000
 [size] 1024 551
 [pos] 0 0
-*-31.000000 5500000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-35.000000 65700000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.fft_tb.
 [treeopen] top.fft_tb.dut.
@@ -20,16 +20,22 @@
 @28
 top.fft_tb.rst
 top.fft_tb.clk
-@420
-#{top.fft_tb.d_re[7:0]} top.fft_tb.d_re[7] top.fft_tb.d_re[6] top.fft_tb.d_re[5] top.fft_tb.d_re[4] top.fft_tb.d_re[3] top.fft_tb.d_re[2] top.fft_tb.d_re[1] top.fft_tb.d_re[0]
-#{top.fft_tb.d_im[7:0]} top.fft_tb.d_im[7] top.fft_tb.d_im[6] top.fft_tb.d_im[5] top.fft_tb.d_im[4] top.fft_tb.d_im[3] top.fft_tb.d_im[2] top.fft_tb.d_im[1] top.fft_tb.d_im[0]
 @88420
-#{top.fft_tb.dut.q_re[11:0]} top.fft_tb.dut.q_re[11] top.fft_tb.dut.q_re[10] top.fft_tb.dut.q_re[9] top.fft_tb.dut.q_re[8] top.fft_tb.dut.q_re[7] top.fft_tb.dut.q_re[6] top.fft_tb.dut.q_re[5] top.fft_tb.dut.q_re[4] top.fft_tb.dut.q_re[3] top.fft_tb.dut.q_re[2] top.fft_tb.dut.q_re[1] top.fft_tb.dut.q_re[0]
+#{top.fft_tb.d_re[7:0]} top.fft_tb.d_re[7] top.fft_tb.d_re[6] top.fft_tb.d_re[5] top.fft_tb.d_re[4] top.fft_tb.d_re[3] top.fft_tb.d_re[2] top.fft_tb.d_re[1] top.fft_tb.d_re[0]
 @20000
 -
+-
+@420
+#{top.fft_tb.d_im[7:0]} top.fft_tb.d_im[7] top.fft_tb.d_im[6] top.fft_tb.d_im[5] top.fft_tb.d_im[4] top.fft_tb.d_im[3] top.fft_tb.d_im[2] top.fft_tb.d_im[1] top.fft_tb.d_im[0]
 @88421
-#{top.fft_tb.dut.q_im[11:0]} top.fft_tb.dut.q_im[11] top.fft_tb.dut.q_im[10] top.fft_tb.dut.q_im[9] top.fft_tb.dut.q_im[8] top.fft_tb.dut.q_im[7] top.fft_tb.dut.q_im[6] top.fft_tb.dut.q_im[5] top.fft_tb.dut.q_im[4] top.fft_tb.dut.q_im[3] top.fft_tb.dut.q_im[2] top.fft_tb.dut.q_im[1] top.fft_tb.dut.q_im[0]
+#{top.fft_tb.dut.q_re[15:0]} top.fft_tb.dut.q_re[15] top.fft_tb.dut.q_re[14] top.fft_tb.dut.q_re[13] top.fft_tb.dut.q_re[12] top.fft_tb.dut.q_re[11] top.fft_tb.dut.q_re[10] top.fft_tb.dut.q_re[9] top.fft_tb.dut.q_re[8] top.fft_tb.dut.q_re[7] top.fft_tb.dut.q_re[6] top.fft_tb.dut.q_re[5] top.fft_tb.dut.q_re[4] top.fft_tb.dut.q_re[3] top.fft_tb.dut.q_re[2] top.fft_tb.dut.q_re[1] top.fft_tb.dut.q_re[0]
 @20000
+-
+-
+@88420
+#{top.fft_tb.dut.q_im[15:0]} top.fft_tb.dut.q_im[15] top.fft_tb.dut.q_im[14] top.fft_tb.dut.q_im[13] top.fft_tb.dut.q_im[12] top.fft_tb.dut.q_im[11] top.fft_tb.dut.q_im[10] top.fft_tb.dut.q_im[9] top.fft_tb.dut.q_im[8] top.fft_tb.dut.q_im[7] top.fft_tb.dut.q_im[6] top.fft_tb.dut.q_im[5] top.fft_tb.dut.q_im[4] top.fft_tb.dut.q_im[3] top.fft_tb.dut.q_im[2] top.fft_tb.dut.q_im[1] top.fft_tb.dut.q_im[0]
+@20000
+-
 -
 [pattern_trace] 1
 [pattern_trace] 0

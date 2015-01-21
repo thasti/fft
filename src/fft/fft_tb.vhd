@@ -8,7 +8,7 @@ end fft_tb;
 
 architecture tb of fft_tb is
 	constant d_width : integer := 8;
-	constant length : integer := 4;
+	constant length : integer := 8;
 
 	signal clk	: std_logic := '0';
 	signal rst	: std_logic := '1';
@@ -21,7 +21,7 @@ begin
 	dut : entity work.fft
 	generic map (
 		d_width => d_width,
-		tf_width => 14,
+		tf_width => 16,
 		length => length
 	)
 	port map (

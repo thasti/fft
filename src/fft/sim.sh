@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TIME=100us
+TIME=200us
 UNIT=fft_tb
 ghdl --clean
 ghdl -a ../counter/counter.vhd
