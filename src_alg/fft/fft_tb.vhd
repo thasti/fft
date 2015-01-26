@@ -19,7 +19,7 @@ architecture tb of fft_tb is
 begin
 	dut : entity work.fft
 	generic map (
-		length => 3
+		length => 8
 	)
 	port map (
 		clk => clk,
