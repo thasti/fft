@@ -21,7 +21,7 @@ begin
 	dut : entity work.fft
 	generic map (
 		d_width => d_width,
-		tf_width => 16,
+		tf_width => 14,
 		length => length
 	)
 	port map (

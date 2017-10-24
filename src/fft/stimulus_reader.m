@@ -8,7 +8,7 @@ y_complex = y(:,1) + 1j*y(:,2);
 y_complex = bitrevorder(y_complex)';
 
 fft_in = fft(round(x));
-fft_out = y_complex;
+fft_out = conj(y_complex);
 
 hold on
 subplot(2,1,1);
