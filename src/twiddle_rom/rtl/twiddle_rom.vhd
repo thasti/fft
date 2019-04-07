@@ -74,15 +74,9 @@ begin
     output : process
     begin
         wait until rising_edge(clk);
-        -- TODO fix this addition
-        --  we have two samples of lag here: one cycle to latch the address \
-        --  and one cycle to latch the output from the ROM
-        -- ideas: a) use delayed counters as address input or b) fill ROM in correct order
-        -- TODO corner case inwidth = 1 does not work for to_unsigned(2, ...) [of course..]
-        -- TODO pinelining register after BF; async data out from ROM
-        address <= std_logic_vector(unsigned(arg(inwidth-1 downto 0)) + to_unsigned(2, inwidth));
         output_sin <= std_logic_vector(sin_rom(to_integer(unsigned(address))));
         output_cos <= std_logic_vector(cos_rom(to_integer(unsigned(address))));
     end process;
+    address <= std_logic_vector(unsigned(arg(inwidth-1 downto 0)) + to_unsigned(1, inwidth));
 end rtl;
 

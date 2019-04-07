@@ -40,7 +40,7 @@ STIM_PULSE = 0
 STIM_RANDOM = 1
 
 @cocotb.test()
-def fft_test(dut, stimulus=STIM_RANDOM):
+def fft_test(dut, stimulus=STIM_RANDOM, plot=False):
     fft_length = 2 ** dut.length.value.integer
     
     yield init_dut(dut)
@@ -100,31 +100,32 @@ def fft_test(dut, stimulus=STIM_RANDOM):
     gain_err = np.mean(np.abs(model_fft) - np.abs(out_iq))
 
     dut._log.info("Gain error: %.02f LSB", gain_err)
-
-    plt.figure()
-    plt.subplot(2, 1, 1)
-    plt.plot(model_fft.real)
-    plt.plot(out_iq.real)
-    plt.ylabel("In-Phase")
-    plt.xlabel("Frequency [samples]")
-
-    plt.subplot(2, 1, 2)
-    plt.plot(model_fft.imag)
-    plt.plot(out_iq.imag)
-    plt.ylabel("Quadrature")
-    plt.xlabel("Frequency [samples]")
     
-    plt.figure()
-    plt.subplot(2, 1, 1)
-    plt.plot(np.abs(model_fft))
-    plt.plot(np.abs(out_iq))
-    plt.ylabel("Magnitude")
-    plt.xlabel("Frequency [samples]")
-    
-    plt.subplot(2, 1, 2)
-    plt.plot(np.arctan2(model_fft.imag, model_fft.real))
-    plt.plot(np.arctan2(out_iq.imag, out_iq.real))
-    plt.ylabel("Phase")
-    plt.xlabel("Frequency [samples]")
+    if plot:
+        plt.figure()
+        plt.subplot(2, 1, 1)
+        plt.plot(model_fft.real)
+        plt.plot(out_iq.real)
+        plt.ylabel("In-Phase")
+        plt.xlabel("Frequency [samples]")
 
-    plt.show()
+        plt.subplot(2, 1, 2)
+        plt.plot(model_fft.imag)
+        plt.plot(out_iq.imag)
+        plt.ylabel("Quadrature")
+        plt.xlabel("Frequency [samples]")
+        
+        plt.figure()
+        plt.subplot(2, 1, 1)
+        plt.plot(np.abs(model_fft))
+        plt.plot(np.abs(out_iq))
+        plt.ylabel("Magnitude")
+        plt.xlabel("Frequency [samples]")
+        
+        plt.subplot(2, 1, 2)
+        plt.plot(np.arctan2(model_fft.imag, model_fft.real))
+        plt.plot(np.arctan2(out_iq.imag, out_iq.real))
+        plt.ylabel("Phase")
+        plt.xlabel("Frequency [samples]")
+
+        plt.show()

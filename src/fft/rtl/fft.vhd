@@ -9,8 +9,9 @@ use ieee.numeric_std.all;
 entity fft is
     generic (
         -- input bit width (given in bits)
-        d_width : positive := 8;
-        tf_width: positive := 12;
+        d_width     : positive := 8;
+        guard_bits  : integer  := 3;
+        tf_width    : positive := 12;
         -- FFT length (given as exponent of 2^N)
         length  : positive := 8
     );
@@ -34,7 +35,7 @@ architecture dif_r2sdf of fft is
     -- N rotator to butterfly connections (rot2bf)
     -- N DL to BF connections (dl2bf)
     -- N BF to DL connections (bf2dl)
-    type con_sig is array (natural range <>) of std_logic_vector(d_width+length-1 downto 0);
+    type con_sig is array (natural range <>) of std_logic_vector(d_width+guard_bits+length-1 downto 0);
     type tf_sig is array (natural range <>) of std_logic_vector(tf_width-1 downto 0);
     signal bf2rot_re : con_sig(0 to length-1);
     signal bf2rot_im : con_sig(0 to length-1);
@@ -71,39 +72,39 @@ begin
             dl_re : entity work.delayline
             generic map (
                 delay => length-n-1,
-                iowidth => d_width+n+1
+                iowidth => d_width+guard_bits+n+1
             )
             port map (
                 clk => clk,
-                d => bf2dl_re(n)(d_width+n downto 0),
-                q => dl2bf_re(n)(d_width+n downto 0)
+                d => bf2dl_re(n)(d_width+guard_bits+n downto 0),
+                q => dl2bf_re(n)(d_width+guard_bits+n downto 0)
             );
 
             dl_im : entity work.delayline
             generic map (
                 delay => length-n-1,
-                iowidth => d_width+n+1
+                iowidth => d_width+guard_bits+n+1
             )
             port map (
                 clk => clk,
-                d => bf2dl_im(n)(d_width+n downto 0),
-                q => dl2bf_im(n)(d_width+n downto 0)
+                d => bf2dl_im(n)(d_width+guard_bits+n downto 0),
+                q => dl2bf_im(n)(d_width+guard_bits+n downto 0)
             );
 
             -- rotators (ROT)
             rotator : entity work.rotator
             generic map (
-                d_width => d_width+n+1,
+                d_width => d_width+guard_bits+n+1,
                 tf_width => tf_width
             )
             port map (
                 clk => clk,
-                i_re => bf2rot_re(n)(d_width+n downto 0),
-                i_im => bf2rot_im(n)(d_width+n downto 0),
+                i_re => bf2rot_re(n)(d_width+guard_bits+n downto 0),
+                i_im => bf2rot_im(n)(d_width+guard_bits+n downto 0),
                 tf_re => rom2rot_re(n),
                 tf_im => rom2rot_im(n),
-                o_re => rot2bf_re(n+1)(d_width+n downto 0),
-                o_im => rot2bf_im(n+1)(d_width+n downto 0)
+                o_re => rot2bf_re(n+1)(d_width+guard_bits+n downto 0),
+                o_im => rot2bf_im(n+1)(d_width+guard_bits+n downto 0)
             );
 
             -- TF ROMs (TF)
@@ -125,19 +126,19 @@ begin
         -- butterflies (BF)
         butterfly : entity work.butterfly
         generic map (
-            iowidth => d_width+n
+            iowidth => d_width+guard_bits+n
         )
         port map (
             clk => clk,
             ctl => ctl_cnt(n)(length-n-1),
-            iu_re => dl2bf_re(n)(d_width+n downto 0),
-            iu_im => dl2bf_im(n)(d_width+n downto 0),
-            il_re => rot2bf_re(n)(d_width+n-1 downto 0),
-            il_im => rot2bf_im(n)(d_width+n-1 downto 0),
-            ou_re => bf2rot_re(n)(d_width+n downto 0),
-            ou_im => bf2rot_im(n)(d_width+n downto 0),
-            ol_re => bf2dl_re(n)(d_width+n downto 0),
-            ol_im => bf2dl_im(n)(d_width+n downto 0)
+            iu_re => dl2bf_re(n)(d_width+guard_bits+n downto 0),
+            iu_im => dl2bf_im(n)(d_width+guard_bits+n downto 0),
+            il_re => rot2bf_re(n)(d_width+guard_bits+n-1 downto 0),
+            il_im => rot2bf_im(n)(d_width+guard_bits+n-1 downto 0),
+            ou_re => bf2rot_re(n)(d_width+guard_bits+n downto 0),
+            ou_im => bf2rot_im(n)(d_width+guard_bits+n downto 0),
+            ol_re => bf2dl_re(n)(d_width+guard_bits+n downto 0),
+            ol_im => bf2dl_im(n)(d_width+guard_bits+n downto 0)
         );
 
     end generate;
@@ -149,20 +150,21 @@ begin
     one_sample_delay : process
     begin
         -- the 1 sample delay can not be inferred from delayline
-        -- use a simple register as described below
-        -- TODO this clutters the RTL viewer (many D-FFs) - find a way to encapsule these
         wait until rising_edge(clk);
         dl2bf_re(length-1) <= bf2dl_re(length-1);
         dl2bf_im(length-1) <= bf2dl_im(length-1);
     end process;
 
     -- connect the input to the first butterfly (no rotator connected there)
-    rot2bf_re(0)(d_width-1 downto 0) <= d_re;
-    rot2bf_im(0)(d_width-1 downto 0) <= d_im;
+    rot2bf_re(0)(d_width+guard_bits-1 downto guard_bits) <= d_re;
+    rot2bf_im(0)(d_width+guard_bits-1 downto guard_bits) <= d_im;
+
+    rot2bf_re(0)(guard_bits-1 downto 0) <= (others => '0');
+    rot2bf_im(0)(guard_bits-1 downto 0) <= (others => '0');
 
     -- connect the output to the last butterfly (no rotator connected there)
-    q_re <= bf2rot_re(length-1);
-    q_im <= bf2rot_im(length-1);
+    q_re <= bf2rot_re(length-1)(d_width+length+guard_bits-1 downto guard_bits);
+    q_im <= bf2rot_im(length-1)(d_width+length+guard_bits-1 downto guard_bits);
 
 end dif_r2sdf;
 
