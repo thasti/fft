@@ -3,6 +3,7 @@
 TIME=100us
 UNIT=delayline_tb
 ghdl --clean
+ghdl -a ../rtl/delayline.vhd
 ghdl -a $UNIT.vhd
 ghdl -e $UNIT
 ghdl -m $UNIT 

@@ -1,8 +1,9 @@
 #!/bin/bash
 
 TIME=100us
-UNIT=rotator_tb
+UNIT=butterfly_tb
 ghdl --clean
+ghdl -a ../rtl/butterfly.vhd
 ghdl -a $UNIT.vhd
 ghdl -e $UNIT
 ghdl -m $UNIT 

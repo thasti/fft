@@ -3,6 +3,7 @@
 TIME=1ms
 UNIT=twiddle_rom_tb
 ghdl --clean
+ghdl -a ../rtl/twiddle_rom.vhd
 ghdl -a $UNIT.vhd
 ghdl -e $UNIT
 ghdl -m $UNIT 

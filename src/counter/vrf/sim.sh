@@ -3,6 +3,7 @@
 TIME=100us
 UNIT=counter_tb
 ghdl --clean
+ghdl -a ../rtl/counter.vhd
 ghdl -a $UNIT.vhd
 ghdl -e $UNIT
 ghdl -m $UNIT 
