@@ -10,7 +10,7 @@ entity fft is
 	generic (
 		-- input bit width (given in bits)
 		d_width	: positive := 8;
-		tf_width: positive := 8;
+		tf_width: positive := 12;
 		-- FFT length (given as exponent of 2^N)
 		length	: positive := 8
 	);
