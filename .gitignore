@@ -11,4 +11,6 @@
 *.gz
 *.aux
 *.m~
-
+build/
+__pycache__/
+sim_build/
