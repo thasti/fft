@@ -39,8 +39,11 @@ def bitreversed(a):
 STIM_PULSE = 0
 STIM_RANDOM = 1
 
+MODE_FFT = 0
+MODE_IFFT = 1
+
 @cocotb.test()
-def fft_test(dut, stimulus=STIM_RANDOM, plot=False):
+def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_IFFT, plot=True):
     fft_length = 2 ** dut.length.value.integer
     
     yield init_dut(dut)
@@ -63,8 +66,12 @@ def fft_test(dut, stimulus=STIM_RANDOM, plot=False):
     
     # apply FFT input
     for inval in in_iq:
-        dut.d_re <= int(inval.real)
-        dut.d_im <= int(inval.imag)
+        if mode == MODE_FFT:
+            dut.d_re <= int(inval.real)
+            dut.d_im <= int(inval.imag)
+        elif mode == MODE_IFFT:
+            dut.d_re <= int(inval.real)
+            dut.d_im <= int(-inval.imag)
         yield RisingEdge(dut.clk)
     
     dut.d_re <= 0
@@ -78,12 +85,19 @@ def fft_test(dut, stimulus=STIM_RANDOM, plot=False):
     out_i = np.zeros_like(in_i)
     out_q = np.zeros_like(in_q)
     for i in range(fft_length):
-        out_i[i] = dut.q_re.value.signed_integer
-        out_q[i] = dut.q_im.value.signed_integer
+        if mode == MODE_FFT:
+            out_i[i] = dut.q_re.value.signed_integer
+            out_q[i] = dut.q_im.value.signed_integer
+        elif mode == MODE_IFFT:
+            out_i[i] = dut.q_re.value.signed_integer
+            out_q[i] = -dut.q_im.value.signed_integer
         yield RisingEdge(dut.clk)
 
     out_iq = np.array(list(bitreversed(out_i + 1j * out_q)))
-    model_fft = npfft.fft(in_iq)
+    if mode == MODE_FFT:
+        model_fft = npfft.fft(in_iq)
+    elif mode == MODE_IFFT:
+        model_fft = npfft.ifft(in_iq) * fft_length
 
     mean_i = np.mean(model_fft.real - out_iq.real)
     mean_q = np.mean(model_fft.imag - out_iq.imag)
