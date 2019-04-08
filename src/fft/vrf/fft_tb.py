@@ -62,15 +62,12 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
     in_iq = in_i + 1j * in_q
 
     # apply FFT input
-    if dut.mode_dif.value.integer:
-        # DIF: natural input order
-        in_iq_dut = in_iq
-    else:
+    if dut.mode_dit.value.integer:
         # DIT: bit-reversed input order
         in_iq_dut = np.array(list(bitreversed(in_iq)))
-
-    if not dut.mode_dif.value.integer:
-        yield RisingEdge(dut.clk)
+    else:
+        # DIF: natural input order
+        in_iq_dut = in_iq
 
     for inval in in_iq_dut:
         if mode == MODE_FFT:
@@ -100,12 +97,12 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
             out_q[i] = -dut.q_im.value.signed_integer
         yield RisingEdge(dut.clk)
 
-    if dut.mode_dif.value.integer:
-        # DIF: bit-reversed output order
-        out_iq = np.array(list(bitreversed(out_i + 1j * out_q)))
-    else:
+    if dut.mode_dit.value.integer:
         # DIT: natural output order
         out_iq = out_i + 1j * out_q
+    else:
+        # DIF: bit-reversed output order
+        out_iq = np.array(list(bitreversed(out_i + 1j * out_q)))
 
     if mode == MODE_FFT:
         model_fft = npfft.fft(in_iq)

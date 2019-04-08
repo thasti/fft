@@ -8,7 +8,7 @@ use ieee.numeric_std.all;
 
 entity fft is
     generic (
-        mode_dif    : integer := 1;
+        mode_dit    : integer := 0;
         -- input bit width (given in bits)
         d_width     : positive := 8;
         guard_bits  : integer  := 3;
@@ -70,7 +70,7 @@ begin
         clk => clk,
         en => '1',
         rst => rst,
-        dir => '1',
+        init => to_unsigned(mode_dit, 1)(0),
         q => ctl_cnt(0)
     );
     
@@ -82,7 +82,7 @@ begin
     ctl_cnt_inv(0) <= not ctl_cnt(0);
 
     -- decimation in frequency (DIF) implementation
-    dif_arch : if mode_dif = 1 generate
+    dif_arch : if mode_dit = 0 generate
         all_instances : for n in 0 to length-1 generate
             -- delay lines (DL)
             -- the last 1 sample delay can't be inferred from delay_line
@@ -172,7 +172,7 @@ begin
 
 
     -- decmation in time (DIT) implementation
-    dit_arch : if mode_dif = 0 generate
+    dit_arch : if mode_dit = 1 generate
         all_instances : for n in 0 to length-1 generate
             -- delay lines (DL)
             -- the first 1 sample delay can't be inferred from delay_line
