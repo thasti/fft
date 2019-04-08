@@ -43,7 +43,7 @@ MODE_FFT = 0
 MODE_IFFT = 1
 
 @cocotb.test()
-def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_IFFT, plot=True):
+def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
     fft_length = 2 ** dut.length.value.integer
     
     yield init_dut(dut)
