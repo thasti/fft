@@ -141,7 +141,7 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
         plt.plot(out_iq.imag)
         plt.ylabel("Quadrature")
         plt.xlabel("Frequency [samples]")
-        """ 
+
         plt.figure()
         plt.subplot(2, 1, 1)
         plt.plot(np.abs(model_fft))
@@ -154,5 +154,5 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
         plt.plot(np.arctan2(out_iq.imag, out_iq.real))
         plt.ylabel("Phase")
         plt.xlabel("Frequency [samples]")
-        """
+
         plt.show()
