@@ -30,7 +30,7 @@ begin
     begin
         wait until rising_edge(clk);
         if (rst = '1') then
-            cnt <= (others => '1');
+            cnt <= (others => '0');
         elsif (en = '1') then
             if (dir = '1') then
                 cnt <= cnt + to_unsigned(1, cnt'length);

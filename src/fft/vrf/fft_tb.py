@@ -60,10 +60,7 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
         in_q = nprnd.randint(-in_range, in_range + 1, fft_length)
 
     in_iq = in_i + 1j * in_q
-    
-    # one idle cycle before start of data
-    yield RisingEdge(dut.clk)
-    
+
     # apply FFT input
     if dut.mode_dif.value.integer:
         # DIF: natural input order
@@ -71,6 +68,9 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
     else:
         # DIT: bit-reversed input order
         in_iq_dut = np.array(list(bitreversed(in_iq)))
+
+    if not dut.mode_dif.value.integer:
+        yield RisingEdge(dut.clk)
 
     for inval in in_iq_dut:
         if mode == MODE_FFT:

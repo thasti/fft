@@ -62,6 +62,17 @@ architecture r2sdf of fft is
 
 begin
 
+    controller : entity work.counter
+    generic map(
+        width => length
+    )
+    port map(
+        clk => clk,
+        en => '1',
+        rst => rst,
+        dir => '1',
+        q => ctl_cnt(0)
+    );
     
     -- pipelined copies of the control counter
     cnt_workaround : for i in 1 to length-1 generate
@@ -72,18 +83,6 @@ begin
 
     -- decimation in frequency (DIF) implementation
     dif_arch : if mode_dif = 1 generate
-        controller : entity work.counter
-        generic map(
-            width => length
-        )
-        port map(
-            clk => clk,
-            en => '1',
-            rst => rst,
-            dir => '1',
-            q => ctl_cnt(0)
-        );
-
         all_instances : for n in 0 to length-1 generate
             -- delay lines (DL)
             -- the last 1 sample delay can't be inferred from delay_line
@@ -174,17 +173,6 @@ begin
 
     -- decmation in time (DIT) implementation
     dit_arch : if mode_dif = 0 generate
-        controller : entity work.counter
-        generic map(
-            width => length
-        )
-        port map(
-            clk => clk,
-            en => '1',
-            rst => rst,
-            dir => '0',
-            q => ctl_cnt(0)
-        );
         all_instances : for n in 0 to length-1 generate
             -- delay lines (DL)
             -- the first 1 sample delay can't be inferred from delay_line
@@ -236,8 +224,8 @@ begin
                 )
                 port map (
                     clk => clk,
-                    ctl => ctl_cnt_inv(n-1)(n),
-                    arg => ctl_cnt_inv(n-1)(n-1 downto 0),
+                    ctl => ctl_cnt(n-1)(n),
+                    arg => ctl_cnt(n-1)(n-1 downto 0),
                     q_sin => rom2rot_im(n-1),
                     q_cos => rom2rot_re(n-1)
                 );
@@ -250,7 +238,7 @@ begin
             )
             port map (
                 clk => clk,
-                ctl => ctl_cnt(n)(n),
+                ctl => ctl_cnt_inv(n)(n),
                 iu_re => dl2bf_re(n)(d_width+guard_bits+n downto 0),
                 iu_im => dl2bf_im(n)(d_width+guard_bits+n downto 0),
                 il_re => rot2bf_re(n)(d_width+guard_bits+n-1 downto 0),
