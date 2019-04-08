@@ -65,7 +65,14 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
     yield RisingEdge(dut.clk)
     
     # apply FFT input
-    for inval in in_iq:
+    if dut.mode_dif.value.integer:
+        # DIF: natural input order
+        in_iq_dut = in_iq
+    else:
+        # DIT: bit-reversed input order
+        in_iq_dut = np.array(list(bitreversed(in_iq)))
+
+    for inval in in_iq_dut:
         if mode == MODE_FFT:
             dut.d_re <= int(inval.real)
             dut.d_im <= int(inval.imag)
@@ -93,7 +100,13 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
             out_q[i] = -dut.q_im.value.signed_integer
         yield RisingEdge(dut.clk)
 
-    out_iq = np.array(list(bitreversed(out_i + 1j * out_q)))
+    if dut.mode_dif.value.integer:
+        # DIF: bit-reversed output order
+        out_iq = np.array(list(bitreversed(out_i + 1j * out_q)))
+    else:
+        # DIT: natural output order
+        out_iq = out_i + 1j * out_q
+
     if mode == MODE_FFT:
         model_fft = npfft.fft(in_iq)
     elif mode == MODE_IFFT:
@@ -128,7 +141,7 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
         plt.plot(out_iq.imag)
         plt.ylabel("Quadrature")
         plt.xlabel("Frequency [samples]")
-        
+        """ 
         plt.figure()
         plt.subplot(2, 1, 1)
         plt.plot(np.abs(model_fft))
@@ -141,5 +154,5 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
         plt.plot(np.arctan2(out_iq.imag, out_iq.real))
         plt.ylabel("Phase")
         plt.xlabel("Frequency [samples]")
-
+        """
         plt.show()
