@@ -57,7 +57,7 @@ architecture r2sdf of fft is
     signal dl2bf_im  : con_sig(0 to length-1);
 
     type ctl_sig is array (natural range <>) of std_logic_vector(length-1 downto 0);
-    signal ctl_cnt          : ctl_sig(0 to length-1);
+    signal ctl_cnt          : ctl_sig(0 to length-1) := (others => (others => '0'));
     signal ctl_cnt_inv      : ctl_sig(0 to length-1);
 
 begin

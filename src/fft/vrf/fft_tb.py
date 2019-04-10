@@ -3,6 +3,7 @@ from cocotb.triggers import RisingEdge, Timer
 from cocotb.clock import Clock
 from cocotb.result import TestFailure, TestSuccess
 from cocotb.regression import TestFactory
+from enum import Enum, auto
 
 import numpy.fft as npfft
 import numpy.random as nprnd
@@ -36,28 +37,49 @@ def bitreversed(a):
         for odd in bitreversed(a[odd_index]):
             yield odd
 
-STIM_PULSE = 0
-STIM_RANDOM = 1
+class FFTStimulus(Enum):
+    STIM_PULSE = auto()
+    STIM_RANDOM = auto()
+    STIM_DC = auto()
+    STIM_SIN = auto()
+    STIM_COS = auto()
+    STIM_EXP = auto()
 
-MODE_FFT = 0
-MODE_IFFT = 1
+class FFTMode(Enum):
+    MODE_FFT = auto()
+    MODE_IFFT = auto()
 
 @cocotb.test()
-def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
+def fft_test(dut, stimulus=FFTStimulus.STIM_SIN, mode=FFTMode.MODE_FFT, plot=False):
     fft_length = 2 ** dut.length.value.integer
     
     yield init_dut(dut)
 
     # prepare FFT test vector
-    in_range = 0.7 * 2 ** (dut.d_width.value.integer - 1) - 1
-    if stimulus == STIM_PULSE:
+    in_range = 2 ** (dut.d_width.value.integer - 1) - 1
+    if stimulus == FFTStimulus.STIM_PULSE:
         in_i = np.zeros(fft_length)
         in_q = np.zeros(fft_length)
         in_i[1] = in_range
         in_q[1] = in_range
-    elif stimulus == STIM_RANDOM:
+    elif stimulus == FFTStimulus.STIM_RANDOM:
         in_i = nprnd.randint(-in_range, in_range + 1, fft_length)
         in_q = nprnd.randint(-in_range, in_range + 1, fft_length)
+    elif stimulus == FFTStimulus.STIM_DC:
+        in_i = in_range * np.ones(fft_length)
+        in_q = np.zeros(fft_length)
+    elif stimulus == FFTStimulus.STIM_SIN:
+        num_periods = 10
+        in_i = in_range * np.sin(np.linspace(0, num_periods * 2 * np.pi, fft_length, endpoint=False))
+        in_q = np.zeros(fft_length)
+    elif stimulus == FFTStimulus.STIM_COS:
+        num_periods = 10
+        in_i = in_range * np.cos(np.linspace(0, num_periods * 2 * np.pi, fft_length, endpoint=False))
+        in_q = np.zeros(fft_length)
+    elif stimulus == FFTStimulus.STIM_EXP:
+        num_periods = 10
+        in_i = in_range * np.sin(np.linspace(0, num_periods * 2 * np.pi, fft_length, endpoint=False))
+        in_q = in_range * np.cos(np.linspace(0, num_periods * 2 * np.pi, fft_length, endpoint=False))
 
     in_iq = in_i + 1j * in_q
 
@@ -70,10 +92,10 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
         in_iq_dut = in_iq
 
     for inval in in_iq_dut:
-        if mode == MODE_FFT:
+        if mode == FFTMode.MODE_FFT:
             dut.d_re <= int(inval.real)
             dut.d_im <= int(inval.imag)
-        elif mode == MODE_IFFT:
+        elif mode == FFTMode.MODE_IFFT:
             dut.d_re <= int(inval.real)
             dut.d_im <= int(-inval.imag)
         yield RisingEdge(dut.clk)
@@ -81,7 +103,7 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
     dut.d_re <= 0
     dut.d_im <= 0
 
-    # one idle wait cycle per FFT stage
+    # one pipeline cycle per FFT stage
     for i in range(dut.length.value.integer-1):
         yield RisingEdge(dut.clk)
 
@@ -89,10 +111,10 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
     out_i = np.zeros_like(in_i)
     out_q = np.zeros_like(in_q)
     for i in range(fft_length):
-        if mode == MODE_FFT:
+        if mode == FFTMode.MODE_FFT:
             out_i[i] = dut.q_re.value.signed_integer
             out_q[i] = dut.q_im.value.signed_integer
-        elif mode == MODE_IFFT:
+        elif mode == FFTMode.MODE_IFFT:
             out_i[i] = dut.q_re.value.signed_integer
             out_q[i] = -dut.q_im.value.signed_integer
         yield RisingEdge(dut.clk)
@@ -104,9 +126,9 @@ def fft_test(dut, stimulus=STIM_RANDOM, mode=MODE_FFT, plot=True):
         # DIF: bit-reversed output order
         out_iq = np.array(list(bitreversed(out_i + 1j * out_q)))
 
-    if mode == MODE_FFT:
+    if mode == FFTMode.MODE_FFT:
         model_fft = npfft.fft(in_iq)
-    elif mode == MODE_IFFT:
+    elif mode == FFTMode.MODE_IFFT:
         model_fft = npfft.ifft(in_iq) * fft_length
 
     mean_i = np.mean(model_fft.real - out_iq.real)
