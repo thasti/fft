@@ -49,14 +49,14 @@ class FFTMode(Enum):
     MODE_FFT = auto()
     MODE_IFFT = auto()
 
-@cocotb.test()
+@cocotb.coroutine
 def fft_test(dut, stimulus=FFTStimulus.STIM_SIN, mode=FFTMode.MODE_FFT, plot=False):
     fft_length = 2 ** dut.length.value.integer
     
     yield init_dut(dut)
 
     # prepare FFT test vector
-    in_range = 2 ** (dut.d_width.value.integer - 1) - 1
+    in_range = 0.707 * 2 ** (dut.d_width.value.integer - 1) - 1
     if stimulus == FFTStimulus.STIM_PULSE:
         in_i = np.zeros(fft_length)
         in_q = np.zeros(fft_length)
@@ -149,29 +149,38 @@ def fft_test(dut, stimulus=FFTStimulus.STIM_SIN, mode=FFTMode.MODE_FFT, plot=Fal
     
     if plot:
         plt.figure()
-        plt.subplot(2, 1, 1)
+        plt.subplot(2, 2, 1)
         plt.plot(model_fft.real)
         plt.plot(out_iq.real)
+        plt.grid()
         plt.ylabel("In-Phase")
         plt.xlabel("Frequency [samples]")
 
-        plt.subplot(2, 1, 2)
+        plt.subplot(2, 2, 2)
         plt.plot(model_fft.imag)
         plt.plot(out_iq.imag)
+        plt.grid()
         plt.ylabel("Quadrature")
         plt.xlabel("Frequency [samples]")
 
-        plt.figure()
-        plt.subplot(2, 1, 1)
+        plt.subplot(2, 2, 3)
         plt.plot(np.abs(model_fft))
         plt.plot(np.abs(out_iq))
+        plt.grid()
         plt.ylabel("Magnitude")
         plt.xlabel("Frequency [samples]")
         
-        plt.subplot(2, 1, 2)
+        plt.subplot(2, 2, 4)
         plt.plot(np.arctan2(model_fft.imag, model_fft.real))
         plt.plot(np.arctan2(out_iq.imag, out_iq.real))
+        plt.grid()
         plt.ylabel("Phase")
         plt.xlabel("Frequency [samples]")
+        plt.tight_layout()
 
         plt.show()
+
+tf = TestFactory(fft_test)
+tf.add_option("stimulus", FFTStimulus)
+tf.add_option("mode", FFTMode)
+tf.generate_tests()
