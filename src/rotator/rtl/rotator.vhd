@@ -35,7 +35,6 @@ end rotator;
 architecture fourmult of rotator is
 begin
     process
-    constant rounding : integer := 2**(d_width+tf_width-2);
     variable temp1 : signed((d_width+tf_width)-1 downto 0); -- A * C
     variable temp2 : signed((d_width+tf_width)-1 downto 0); -- B * D
     variable temp3 : signed((d_width+tf_width)-1 downto 0); -- A * D
@@ -46,10 +45,10 @@ begin
         wait until rising_edge(clk);
 
         -- out = in * tf
-        temp1 := signed(i_re) * signed(tf_re) + rounding;
-        temp2 := signed(i_im) * signed(tf_im) + rounding;
-        temp3 := signed(i_re) * signed(tf_im) + rounding;
-        temp4 := signed(i_im) * signed(tf_re) + rounding;
+        temp1 := signed(i_re) * signed(tf_re);
+        temp2 := signed(i_im) * signed(tf_im);
+        temp3 := signed(i_re) * signed(tf_im);
+        temp4 := signed(i_im) * signed(tf_re);
 
         temp5 := temp1 - temp2;
         temp6 := temp3 + temp4;

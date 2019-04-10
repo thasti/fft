@@ -34,10 +34,10 @@ entity twiddle_rom is
     );
 end twiddle_rom;
 
--- TODO corner case inwidth = 1 produces "vector truncated" messages
 architecture rtl of twiddle_rom is
     constant rom_length     : integer := (2**inwidth);
-    constant rom_max    : integer := 2**outwidth;
+    constant rom_max    : real := 2.0**(outwidth-1);
+    constant rom_pclip    : real := 2.0**(outwidth-1)-1.0;
 
     -- sine rom saves 1 quadrant of sine
     -- upper two bits of arg are used to determine quadrant
@@ -56,12 +56,12 @@ begin
     --  (0,2,..,N/2-1) for second stage (N/4 factors, exponent = inwidth-2)
     --  (0,4,..,N/2-1) for third stage (N/8 factors, exponent = inwidth-3)
     table : for i in 0 to rom_length-1 generate
-        sin_rom(i) <= to_signed(integer(
-            -sin(MATH_2_PI * real((2**(exponent-inwidth-1))*i) / real(2**exponent)) * (real(rom_max)/2.0-1.0)
-            ), outwidth);
-        cos_rom(i) <= to_signed(integer(
-            cos(MATH_2_PI * real((2**(exponent-inwidth-1))*i) / real(2**exponent)) * (real(rom_max)/2.0-1.0)
-            ), outwidth);
+        sin_rom(i) <= to_signed(integer(realmin(
+            -sin(MATH_2_PI * real((2**(exponent-inwidth-1))*i) / real(2**exponent)) * rom_max,
+            rom_pclip)), outwidth);
+        cos_rom(i) <= to_signed(integer(realmin(
+            cos(MATH_2_PI * real((2**(exponent-inwidth-1))*i) / real(2**exponent)) * rom_max,
+            rom_pclip)), outwidth);
     end generate;
 
     q_sin <=    output_sin when ctl = '0' else
