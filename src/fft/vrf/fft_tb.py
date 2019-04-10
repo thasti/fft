@@ -81,7 +81,7 @@ def fft_test(dut, stimulus=FFTStimulus.STIM_SIN, mode=FFTMode.MODE_FFT, plot=Fal
         in_i = in_range * np.sin(np.linspace(0, num_periods * 2 * np.pi, fft_length, endpoint=False))
         in_q = in_range * np.cos(np.linspace(0, num_periods * 2 * np.pi, fft_length, endpoint=False))
 
-    in_iq = in_i + 1j * in_q
+    in_iq = np.around(in_i + 1j * in_q)
 
     # apply FFT input
     if dut.mode_dit.value.integer:
