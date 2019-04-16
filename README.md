@@ -33,6 +33,6 @@ The design has some limitations which could still be improved:
 
 - Switching between DIF and DIT is done via a generic instead of using different architectures. This is mostly a
   cocotb-related limitation, as the arhictecture can't be selected at build time. Should not impact synthesis.
-- The long combinational path in each stage from twiddle wactor ROM, through the rotator, butterfly and delay
+- The long combinational path in each stage from twiddle factor ROM, through the rotator, butterfly and delay
   line limits the maximum operation frequency somewhat (60 MHz on Cyclone IV). Could be improved by adding more 
   pipelining stages.
