@@ -11,7 +11,13 @@ output as such (sign inversion on imaginary component).
 The Python testbench shows how to use the FFT in practice. It also verifies the output against the numpy FFT
 implementation and calculates magnitude/phase and RMS errors.
 
-Pipeline characteristics
+Design goals
+============
+This core was implemented as an educational experiment. It focusses on parametric synthesis instead of maximum
+performance. It uses open source tools for implementation, simulation and test. The original implementation was
+done as an assignment on Digital Signal Processors at EAH Jena in 2014/2015.
+
+I/O and pipeline characteristics
 ========================
 The following data input/output relationships are important:
 
@@ -21,5 +27,12 @@ The following data input/output relationships are important:
   the number of stages of the FFT (log2 of FFT length)
 - After the first intrinsic pipeline delay, output data blocks appear consecutively at the output
 
+Limitations
+===========
+The design has some limitations which could still be improved:
 
-
+- Switching between DIF and DIT is done via a generic instead of using different architectures. This is mostly a
+  cocotb-related limitation, as the arhictecture can't be selected at build time. Should not impact synthesis.
+- The long combinational path in each stage from twiddle wactor ROM, through the rotator, butterfly and delay
+  line limits the maximum operation frequency somewhat (60 MHz on Cyclone IV). Could be improved by adding more 
+  pipelining stages.
